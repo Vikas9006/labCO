@@ -1,5 +1,6 @@
 package processor;
 
+import processor.memorysystem.Cache;
 import processor.memorysystem.MainMemory;
 import processor.pipeline.EX_IF_LatchType;
 import processor.pipeline.EX_MA_LatchType;
@@ -31,6 +32,9 @@ public class Processor {
 	Execute EXUnit;
 	MemoryAccess MAUnit;
 	RegisterWrite RWUnit;
+
+	Cache L1iCache;
+	Cache L1dCache;
 	
 	public Processor()
 	{
@@ -49,6 +53,9 @@ public class Processor {
 		EXUnit = new Execute(this, OF_EX_Latch, EX_MA_Latch, EX_IF_Latch, IF_OF_Latch, IF_EnableLatch);
 		MAUnit = new MemoryAccess(this, IF_EnableLatch, IF_OF_Latch, OF_EX_Latch, EX_IF_Latch, EX_MA_Latch, MA_RW_Latch);
 		RWUnit = new RegisterWrite(this, MA_RW_Latch, IF_EnableLatch);
+
+		L1iCache = new Cache(this, 1024);
+		L1dCache = new Cache(this, 1024);
 	}
 	
 	public void printState(int memoryStartingAddress, int memoryEndingAddress)
@@ -94,4 +101,7 @@ public class Processor {
 		return RWUnit;
 	}
 
+	public Cache getL1iCache() { return L1iCache; }
+
+	public Cache getL1dCache() { return L1dCache; }
 }

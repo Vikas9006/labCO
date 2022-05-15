@@ -24,7 +24,7 @@ public class RegisterWrite {
 			MA_RW_Latch.setRW_Lock(false);
 		}
 		else if(MA_RW_Latch.isRW_enable()) {
-			System.out.println("E");
+
 			MA_RW_Latch.setRW_enable(false);
 			Statistics.setNumberOfRWStageInstructions(Statistics.getNumberOfRWStageInstructions() + 1);
 			Instruction currentInstruction = MA_RW_Latch.getInstruction();

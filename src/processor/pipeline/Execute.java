@@ -33,7 +33,6 @@ public class Execute {
 			IF_OF_Latch.setOF_Busy(true);
 		}
 		else {
-			System.out.println("C");
 			IF_OF_Latch.setOF_Busy(false);
 
 			if(OF_EX_Latch.isEX_Locked()){

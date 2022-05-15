@@ -103,10 +103,8 @@ public class Simulator {
 			processor.getOFUnit().performOF();
 			processor.getIFUnit().performIF();
 			Clock.incrementClock();
-			// System.out.println("****************************************");
+			System.out.println("****************************************");
 			noOfCycles += 1;
-			System.out.println();
-			System.out.println("numcycle = " + noOfCycles);
 		}
 		Statistics.setNumberOfInstructions(noOfInstructions);
 		Statistics.setNumberOfCycles(noOfCycles);

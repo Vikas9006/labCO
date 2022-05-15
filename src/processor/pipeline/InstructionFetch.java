@@ -29,7 +29,6 @@ public class InstructionFetch implements Element {
 	public void performIF()
 	{
 		if(!IF_EnableLatch.isIF_Busy()){
-			System.out.println("A");
 			if(IF_EnableLatch.isIF_enable()) {
 				if(EX_IF_Latch.isEX_IF_enable()) {
 					int branchPC = EX_IF_Latch.getPC();
@@ -42,9 +41,9 @@ public class InstructionFetch implements Element {
 				Simulator.setNoOfInstructions( Simulator.getNoOfInstructions() + 1 );
 				Simulator.getEventQueue().addEvent(
 						new MemoryReadEvent(
-								Clock.getCurrentTime() + Configuration.mainMemoryLatency,
+								Clock.getCurrentTime() + containingProcessor.getL1iCache().getCacheLatency(),
 								this,
-								containingProcessor.getMainMemory(),
+								containingProcessor.getL1iCache(),
 								currentPC)
 				);
 				System.out.println("IF Event Added");
@@ -63,10 +62,10 @@ public class InstructionFetch implements Element {
 			Simulator.getEventQueue().addEvent(e);
 		}
 		else if (e.getEventType() == Event.EventType.MemoryResponse){
-			MemoryResponseEvent event = (MemoryResponseEvent) e;
+			MemoryResponseEvent event = (MemoryResponseEvent) e ;
 			System.out.println("IF Event Handled");
 			IF_OF_Latch.setInstruction(event.getValue());
-			
+
 			IF_EnableLatch.setIF_Busy(false);
 			IF_OF_Latch.setOF_enable(true);
 		}

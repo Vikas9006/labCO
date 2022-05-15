@@ -33,7 +33,6 @@ public class MemoryAccess implements Element{
 			OF_EX_Latch.setEX_Busy(true);
 		}
 		else {
-			System.out.println("D");
 			OF_EX_Latch.setEX_Busy(false);
 
 			if (EX_MA_Latch.isMA_Locked()) {
@@ -46,14 +45,15 @@ public class MemoryAccess implements Element{
 				instruction = currentInstruction;
 				int aluResult = EX_MA_Latch.getAluResult();
 				OperationType currentOperation = currentInstruction.getOperationType();
+				MA_RW_Latch.setInstruction(instruction);
 				int currentPC = currentInstruction.getProgramCounter();
 
 				if (currentOperation == OperationType.load) {
 					Simulator.getEventQueue().addEvent(
 							new MemoryReadEvent(
-									Clock.getCurrentTime() + Configuration.mainMemoryLatency,
+									Clock.getCurrentTime() + containingProcessor.getL1dCache().getCacheLatency(),
 									this,
-									containingProcessor.getMainMemory(),
+									containingProcessor.getL1dCache(),
 									aluResult)
 					);
 					System.out.println("MA Load Event Added");
@@ -63,9 +63,9 @@ public class MemoryAccess implements Element{
 					int stWord = containingProcessor.getRegisterFile().getValue(currentInstruction.getSourceOperand1().getValue());
 					Simulator.getEventQueue().addEvent(
 							new MemoryWriteEvent(
-									Clock.getCurrentTime() + Configuration.mainMemoryLatency,
+									Clock.getCurrentTime() + containingProcessor.getL1dCache().getCacheLatency(),
 									this,
-									containingProcessor.getMainMemory(),
+									containingProcessor.getL1dCache(),
 									aluResult,
 									stWord)
 					);

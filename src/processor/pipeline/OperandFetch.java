@@ -201,7 +201,7 @@ public class OperandFetch {
 			}
 			else {
 				if (IF_OF_Latch.isOF_enable()) {
-			System.out.println("B");
+
 					int Instruction = IF_OF_Latch.getInstruction();
 					int currentPC = containingProcessor.getRegisterFile().getProgramCounter() - 1;
 					String binaryInstruction = toBinary(Instruction, 32);
